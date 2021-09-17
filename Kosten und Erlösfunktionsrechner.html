@@ -1,0 +1,78 @@
+<html>
+    <head>
+    <title>Kosten und Erlösfunktionsrechner</title>
+</head>
+<script>
+
+function vRechner() {
+    
+    var vMenge;
+    var vAusgabe;
+    var vStartmenge;
+    var vY;
+    var vKV;
+    var vKF;
+    var vPreis;
+    var vE;
+    var vG;
+    var vBreak;
+    var vSchwelle;
+
+    vStartmenge = 0 ;
+
+    vMenge =parseFloat( document.getElementById("idMenge").value);
+	vPreis = parseFloat(document.getElementById("idPreis").value);
+    vKV = parseFloat (document.getElementById("idVariablekosten").value);
+    vKF =  parseFloat(document.getElementById("idKostenfix").value);
+    
+    vAusgabe = "";
+    vAusgabe = vAusgabe + "<table border=1>";
+    vAusgabe = vAusgabe + "<tr><th>Produktionsmenge</th><th>K(x) = k * x + F</th><th>Erlöse E (x) = p × x </td><th>Gewinn G(x) = E(x) — K(x)</th><th>Bemerkung</th></tr>";
+   
+
+        while(vStartmenge<=vMenge) {
+        vY = vKF+vKV*vStartmenge;
+        vE = vStartmenge * vPreis ;
+        vG = vE-vY;
+
+        if(vG<0){
+				vAusgabe = vAusgabe + "<tr><td>" + vStartmenge + "</td><td>" + vY + " € " + "</td><td>" + vE + " € " + "</td><td Style=Color:red>" + vG + " € " + "</td><td>Verlustzone</td></tr>";
+                }
+
+        else {
+                vAusgabe = vAusgabe + "<tr><td>" + vStartmenge + "</td><td>" + vY + " € " + "</td><td>" + vE + " € " + "</td><td>" + vG + " € " + "</td><td>Gewinnzone</td></tr>";
+                }
+
+        vStartmenge = vStartmenge + 1000;
+        }
+        vAusgabe = vAusgabe + "</table><br>";
+
+        vBreak = vPreis-vKV;
+        vBreak = vKF /vBreak ;
+
+        vSchwelle = vBreak * vPreis
+
+    vAusgabe = vAusgabe + vBreak + "<br>"+ vSchwelle;
+            
+    document.getElementById("divAusgabe").innerHTML = vAusgabe;
+        
+
+}
+
+
+
+
+</script>
+<body>
+<h1>Kosten und Erlösfunktionsrechner</h1>
+
+Kosten-Variabel(k): <input id="idVariablekosten" type="text" value="4.50">
+Kosten-Fix: <input id="idKostenfix" type="text" value="12800"><br><br>
+Produktionsmenge(x): <input id="idMenge" type="text" value="20000">
+Stückpreis(p): <input id="idPreis" type="text" value="6.00"><br><br>
+
+<button onClick="vRechner();">Kostentabelle</button><br /><br />
+<div id="divAusgabe"></div>
+
+</body>
+</html>
